@@ -1,0 +1,19 @@
+appId: com.vitalii-kravchenko.coop-cloud-saving
+productName: Co-op Cloud Saving
+directories:
+  buildResources: build
+  output: dist
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{eslint.config.mjs,.prettierrc,README.md}'
+  - '!{.env,.env.*,.npmrc}'
+win:
+  executableName: coop-cloud-saving
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+npmRebuild: false
