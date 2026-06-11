@@ -31,6 +31,15 @@ Facts gathered before building the product. Updated as experiments complete.
 - Start/stop detection verified with `Notepad.exe`; match names case-insensitively
 - **Verdict: GO.**
 
+## GitHub OAuth Device Flow — VERIFIED end to end (2026-06-11)
+
+- OAuth App registered (Client ID `Ov23liThtglJqUxY4Kh0` — public by design, no client secret needed)
+- "Enable Device Flow" checkbox in the app settings is mandatory
+- Script: [`spikes/device-flow.mjs`](spikes/device-flow.mjs) — request code → user enters it at
+  github.com/login/device → poll → token with `read:user,repo` scopes received, identity confirmed
+- Polling: 5s interval, handle `authorization_pending` / `slow_down` (+5s) / `expired_token`
+- **Verdict: GO.** This is exactly what AuthService will do in stage 2 (plus safeStorage for the token)
+
 ## Git LFS quotas — verified against GitHub Docs (2026-06)
 
 - Free tier: **1 GB storage + 1 GB bandwidth per month**; bandwidth counts *downloads*
@@ -41,7 +50,7 @@ Facts gathered before building the product. Updated as experiments complete.
 ## TODO
 
 - [ ] Manual Satisfactory save transfer between two accounts/PCs (does the world open? can you host?)
-- [ ] GitHub OAuth App registered + Device Flow tested end to end
+- [x] GitHub OAuth App registered + Device Flow tested end to end (2026-06-11)
 - [ ] LFS spike: push/pull a 30 MB file, measure timing
 - [ ] Terraria and Stardew Valley checks once the games are installed
 - [ ] Stardew: what happens to farmhands when the host changes (riskiest game)
