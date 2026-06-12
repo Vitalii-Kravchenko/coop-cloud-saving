@@ -28,20 +28,43 @@ body {
 
 .subtitle {
   color: var(--muted);
+  margin-bottom: 40px;
 }
 
-.status {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: var(--surface);
+.muted {
   color: var(--muted);
-  font-size: 0.85rem;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 320px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.code {
+  font-family: Consolas, monospace;
+  font-size: 2rem;
+  letter-spacing: 0.3em;
+  margin: 4px 0;
+  user-select: all;
+}
+
+a {
+  color: var(--accent);
 }
 
 button {
-  display: block;
-  margin: 24px auto 0;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -55,6 +78,13 @@ button:hover {
   background: var(--accent-hover);
 }
 
-.reply {
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--muted);
   color: var(--muted);
+}
+
+button.secondary:hover {
+  border-color: var(--text);
+  color: var(--text);
 }

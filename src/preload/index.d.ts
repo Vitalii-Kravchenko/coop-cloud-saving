@@ -1,7 +1,14 @@
+import type { AuthState, DeviceCodePrompt } from '../shared/auth'
+
 declare global {
   interface Window {
     api: {
-      ping: () => Promise<string>
+      auth: {
+        getState: () => Promise<AuthState>
+        startLogin: () => Promise<DeviceCodePrompt>
+        logout: () => Promise<void>
+        onChanged: (callback: (state: AuthState) => void) => () => void
+      }
     }
   }
 }

@@ -1,6 +1,8 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import { join } from 'node:path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import type { AuthState } from '../shared/auth'
+import { AuthService } from './core/auth-service'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -17,6 +19,12 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => mainWindow.show())
+
+  // Any external link opens in the system browser, never inside the app window
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    void shell.openExternal(url)
+    return { action: 'deny' }
+  })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
@@ -46,7 +54,14 @@ if (!gotTheLock) {
       optimizer.watchWindowShortcuts(window)
     })
 
-    ipcMain.handle('app:ping', () => 'pong from main process')
+    const broadcast = (state: AuthState): void => {
+      BrowserWindow.getAllWindows().forEach((win) => win.webContents.send('auth:changed', state))
+    }
+    const auth = new AuthService(broadcast)
+
+    ipcMain.handle('auth:get-state', () => auth.getState())
+    ipcMain.handle('auth:start-login', () => auth.startLogin())
+    ipcMain.handle('auth:logout', () => auth.logout())
 
     createWindow()
 

@@ -47,10 +47,20 @@ Facts gathered before building the product. Updated as experiments complete.
 - Two players pulling a 30 MB save daily ≈ 1.8 GB/month → over the limit
 - **Decision: LFS per game** (Satisfactory late-game only); small-save games use plain git
 
+## Git LFS spike — VERIFIED on a real connection (2026-06-12)
+
+- Setup: temporary private repo `lfs-spike-tmp`, 30 MB of random (incompressible) bytes
+  tracked via `.gitattributes` (`*.bin filter=lfs`)
+- **Push (upload): 12.2 s** (~2.5 MB/s) — post-exit sync after a session
+- **Fresh clone (download): 9.9 s** (~4.5 MiB/s) — pre-launch sync on the other machine
+- File arrived intact (30 MB), LFS smudge filter worked transparently
+- **Verdict: GO.** ~10 s of sync before launching a game is acceptable UX even for
+  late-game Satisfactory saves; show a progress indicator anyway
+
 ## TODO
 
 - [ ] Manual Satisfactory save transfer between two accounts/PCs (does the world open? can you host?)
 - [x] GitHub OAuth App registered + Device Flow tested end to end (2026-06-11)
-- [ ] LFS spike: push/pull a 30 MB file, measure timing
+- [x] LFS spike: push/pull a 30 MB file, measure timing (2026-06-12 — see above)
 - [ ] Terraria and Stardew Valley checks once the games are installed
 - [ ] Stardew: what happens to farmhands when the host changes (riskiest game)
